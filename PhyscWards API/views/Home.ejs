@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Yet to completeadd the routes details which route to hit and how with details.</title>
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+
+  </head>
+  <body style="background-color:#E5FFCC">
+    <h1>Welcome to PhyscWards API Documentation</h1>
+
+    <h4>1.) New Doctor Registeration Route  -POST- '/physcwards/api/doctor/register/'</h4>
+    <b><h5>Use POSTMAN to make the requests.</h5>
+      firstname,lastname,hospitalname,email,password -----<b>(Required)<br></b>
+      hospitalname must be from the list [<br>
+        'Apollo Hospitals',<br>
+        'Jawaharlal Nehru College and Hospital',<br>
+        'Indira Gandhi Institute of Medical Sciences (IGIMS)',<br>
+        'AIIMS - All India Institute Of Medical Science'<br>
+      ])</b><br>
+      <b><p>-----POST--------</p>
+    <p>In the body send json object raw as -><br> {<br>
+
+
+
+
+      "firstname":"Rameshwaram",<br>
+      "lastname":"Mutaswami",<br>
+      "hospitalname":"Apollo Hospitals",<br>
+      "email":"ram@gmail.com",<br>
+      "password":"secret12345",<br>
+      "pincode":110015,<br>
+      "state":"Mumbai"<br>
+
+    }</p></b>
+
+    <br>
+    <b>-------200 success---------<br> return user/doctor id for future refferences<br>
+       {"user_created":"60670f95deeab9124c69a87f"} </b><br>
+       <br>
+    <b>-------400 Bad request---------<br> return error field and error messages
+      {
+    "errors": {
+
+    },
+    "_message":
+    "name":
+    "message":
+}</b>
+
+  </body>
+</html>
