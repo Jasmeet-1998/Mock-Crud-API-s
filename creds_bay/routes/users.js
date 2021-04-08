@@ -63,4 +63,28 @@ router.post('/admin/login',async(req,res)=>{
    res.header('auth-token',token).send(token);//add it to our header auth-token is arbitary name and spit it back
 });
 
+// Agent Login Route
+router.post('/agent/login',async(req,res)=>{
+
+   // Validation Check
+   const {error}=loginValidation(req.body);
+   if(error)return res.status(400).send(error.details[0].message);
+
+   //Check wheather the user with the email exist in the database and is Agent Or Admin
+   const user=await User.findOne({email:req.body.email});
+   if(!user) return res.status(400).send('Email not found!!');
+
+   if(user.usertype!=='Agent'){
+     return res.status(400).send('Access Denied !! You must be a Agent To do this..');
+   }
+
+   //PASSWORD Check from database
+   const validPass=await bcrypt.compare(req.body.password,user.password);
+   if(!validPass) return res.status(400).send('Password is wrong.');
+
+   //create and assign a token
+   const token=jwt.sign({_id:user._id},process.env.TOKEN_SECRET,{ expiresIn:'1h' });
+   res.header('auth-token',token).send(token);//add it to our header auth-token is arbitary name and spit it back
+});
+
 module.exports=router;

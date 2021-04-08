@@ -4,6 +4,7 @@ const express=require('express'),
       bodyParser=require('body-parser'),
       mongoose=require('mongoose'),
       adminRoute=require('./routes/admin'),
+      agentRoute=require('./routes/agent'),
       userRoute=require('./routes/users'),
       PORT=process.env.PORT || 3000;
 
@@ -23,9 +24,9 @@ app.use(bodyParser.urlencoded({extended:true}));
 // Routes
 app.use('/credsBay/api',userRoute);
 app.use('/credsBay/api',adminRoute);
+app.use('/credsBay/api',agentRoute);
 
-
-
+// Default home route
 app.get('/',(req,res,next)=>{
   res.send('Started');
 });
