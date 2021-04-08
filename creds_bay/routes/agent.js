@@ -1,5 +1,6 @@
 const router =require('express').Router(),
       verify =require('./verifytokens'),
+      {loanValidation}=require('../validations'),
       verifyagent=require('./verifyagent'),
       User=require('../models/Users'),
       Loan=require('../models/Loans');
@@ -38,14 +39,22 @@ router.get('/agent/view/:email',verify,async(req,res)=>{
 // Create Loan Request
 router.post('/agent/loan/new',verifyagent,async(req,res)=>{
 
+  // Loan Validation Check
+  const {error}=loanValidation(req.body);
+  if(error)return res.status(400).send(error.details[0].message);
 
+  // Check for Duplication loan_requests for same customer
+
+  const loanRequestExist=await Loan.findOne({customer_id:req.body.customer_id});
+  //console.log(loanRequestExist);
+  if(loanRequestExist) return res.status(400).send('Loan request Already Made for this Customer !!');
 
   try{
     // create new loan request
     const loan=new Loan({
       customer_id:req.body.customer_id,
       agent_id:req.body.agent_id,
-      tenure:req.body.tenure,
+      tenure_in_months:req.body.tenure_in_months,
       interest:req.body.interest,
       loan_state:'NEW'
     });
@@ -59,6 +68,9 @@ router.post('/agent/loan/new',verifyagent,async(req,res)=>{
   }
 
 });
+
+
+
 
 
 module.exports=router;

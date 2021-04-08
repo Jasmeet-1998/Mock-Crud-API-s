@@ -11,11 +11,11 @@ module.exports= async(req,res,next)=>{
   if(!user) return res.status(400).send('Bad Request Cannot Fetch Data!');
 
 
-  console.log(user);
+  //console.log(user);
   if(user.usertype!=='Agent'){
     return res.status(400).send('Access Denied !! You must be Agent to do This..');
   }
-  
+
 
   try{
     //CHECK TOKEN AUTHENTICITY

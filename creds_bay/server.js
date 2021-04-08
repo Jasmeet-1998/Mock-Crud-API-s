@@ -6,13 +6,14 @@ const express=require('express'),
       adminRoute=require('./routes/admin'),
       agentRoute=require('./routes/agent'),
       userRoute=require('./routes/users'),
+      loanRoute=require('./routes/Loans'),
       PORT=process.env.PORT || 3000;
 
 dotenv.config();
 
 // Connect to database
 mongoose.connect(process.env.DB_CONNECT,
-{useNewUrlParser:true,useUnifiedTopology: true })
+{useNewUrlParser:true,useUnifiedTopology: true, useFindAndModify: false })
 .then(() => console.log('MongoDB Connected..'))
 .catch(err => console.log(err));
 
@@ -25,6 +26,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use('/credsBay/api',userRoute);
 app.use('/credsBay/api',adminRoute);
 app.use('/credsBay/api',agentRoute);
+app.use('/credsBay/api',loanRoute);
 
 // Default home route
 app.get('/',(req,res,next)=>{

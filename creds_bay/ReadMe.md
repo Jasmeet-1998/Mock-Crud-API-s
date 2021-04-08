@@ -73,11 +73,15 @@ Success(200)=> You will get a Long token with 1 hour validity use this token to 
 
 2.) Admin View GET Route
 
-to View Every User Details.
+Admin Only
 
-Requires - auth-token in request header.
+to View Every User Details in the database.
 
-'credsBay/api/admin/view' GET
+Requires - auth-token in request header and admin_id in request params.
+
+'credsBay/api/admin/view/admin_id' GET
+
+replace admin_id by the admin_id that was received when new Admin was added to the database via the unprotected register route.
 
 In request header
 
@@ -135,14 +139,14 @@ Success(200):gives agent_id associated to that email.
 '/credsBay/api/agent/loan/new'
 
 Access- Agent Only ,
- though , Admin have all the info regarding every user they can use the customer_id and agent_id to create a new loan request also.
+ though , Hypothetically Admin have all the info regarding every user they can use the customer_id and agent_id to create a new loan request also.
 
  send raw data in body as JSON Object
 {
      "customer_id":"String",
      "interest":Number,
      "agent_id":"String",
-     "tenure":Number(in months)
+     "tenure_in_months":Number(in months)
 }
 
 NOTE->
@@ -152,3 +156,52 @@ customer_id and agent_id can be obtained by hitting the get all customer informa
 Success(200):returns a {
   loan_req_id:"String"
 }
+
+7.) View Loans Details For all Customers.
+GET '/credsBay/api/loans/view'
+
+
+In request header
+
+set Content-Type : application/json
+set auth-token   : token
+
+Success(200):gives Loans Object with all loan requests in the database.
+
+8.) Edit/Update Route Agent Only
+
+PATCH '/credsBay/api/agent/loan/edit/loan_req_id'
+
+replace loan_req_id with the loan_id you want to make changes to.
+
+send raw data in body as JSON array
+[
+    {"propName":propName,"value":value}
+]
+
+replace propName with the property you want to change and value with the new value you want to set for this property.
+
+In request header
+
+set Content-Type : application/json
+set auth-token   : token
+
+9.) Approve Loan By Admin Only
+
+PATCH
+'/credsBay/api/admin/loanApproval/loan_id'
+
+replace loan_id with the _id of the loan you want to approve or reject.
+
+send Raw JSON object in request body
+{
+    "email":"John@credsBay.co",
+    "loan_decision":"'Accepted' or 'Rejected'"
+}
+
+In request header
+
+set Content-Type : application/json
+set auth-token   : token
+
+10.) GET get info about the loan details Customer can only view their own loan details by providing their loan_id as request parameter.
