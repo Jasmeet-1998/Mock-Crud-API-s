@@ -4,8 +4,8 @@
   "description": "redcarpetup Interview Task",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js",
+    "test": "mocha ./test/**/*.js"
   },
   "author": "Jasmeet Singh Bali",
   "license": "ISC",
@@ -17,6 +17,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^8.3.2",
     "mongoose": "^5.12.3",
     "node-fetch": "^2.6.1"
   },

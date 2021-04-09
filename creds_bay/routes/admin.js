@@ -3,7 +3,7 @@ const router =require('express').Router(),
       User=require('../models/Users'),
       Loan=require('../models/Loans');
 
-// View everyone
+// View entire database (THIS ROUTE IS JUST FOR DEBUGGING PURPOSES CAN BE REMOVED BEFORE THE API GOES TO FINAL PRODUCTION.)
 router.get('/admin/view/:admin_id',verify,async(req,res)=>{
 
   const admin_id=req.params.admin_id;
@@ -31,15 +31,15 @@ router.get('/admin/view/:admin_id',verify,async(req,res)=>{
 // Approve loan Request
 router.patch('/admin/loanApproval/:loan_req_id',verify,async(req,res)=>{
   try{
-    const email=req.body.email;
-    const admin=await User.findOne({email:email});
+    const admin_id=req.body.admin_id;
+    const admin=await User.findOne({_id:admin_id});
     if(!admin) {
-      return res.status(401).send('No Records Found!')
+      return res.status(400).send('No Records Found!')
     };
     console.log(admin);
 
     if(admin.usertype!=='Admin'){
-      return res.status(401).send('Only Admin Can Approve Loans Please Contact Admin !');
+      return res.status(400).send('Only Admin Can Approve Loans Please Contact Admin !');
     }
 
     const updates=req.body.loan_decision;

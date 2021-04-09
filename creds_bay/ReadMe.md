@@ -19,19 +19,35 @@ jsonwebtoken -> Token based Protected Routing
 
 mongoose -> To Interact with MongoDB
 
+mocha & chai -> For testing.
+
 #Features and Access
 
-1.) Admin can do anything (get,post,edit).
+1.) Admin can fetch anyone Information basically all Users in the DATABASE
+ and Approve Loans(get,Approve).
 
 2.) Agent can access their own data and edit,update,get Customer Data.
 
-3.) Customer can only get their own data.
+3.) Customer can only get their own Loan Requests.
 
+NOTE-> Admin can Use Agent Creds to Edit Loan Request this is Not missed by me
+I have a Route for Admin to Get Information for all users for Debugging PURPOSES
+By removing the Route in the admin.js of routes directory this loophole can be tackled.
 
 #Docker
 
+To make the API work and Run Test Cases type the below commands after Cloning this Repo.
+Also Create a .env File in the creds_bay root level to access the mongoDB Database.
+this file will have two Environment variables.
+ 
+DB_CONNECT="mongoUrl"
+TOKEN_SECRET="Anything Random or Your Secret Cipher You want to add"
 
+-docker build -t jasmeetbali/interview-assignment-redcarpetup .
 
+-docker run -it -p 8080:3000 jasmeetbali/interview-assignment-redcarpetup
+
+-open a new terminal and Run npm test
 
 
 #Routes
@@ -76,11 +92,11 @@ send raw data in body as JSON Object
 
 Success(200)=> You will get a Long token with 1 hour validity use this token to make further admin request.
 
-2.) Admin View GET Route
+2.) Admin View GET Route (THIS IS JUST A TESTING ROUTE CAN BE REMOVED IN THE FINAL PRODUCTION VERSION TO PREVENT ADMIN TO USE AGENT CREDENTIALS TO EDIT LOAN REQUEST.)
 
 Admin Only
 
-to View Every User Details in the database.
+to List All Users Data in the Database.
 
 Requires - auth-token in request header and admin_id in request params.
 
@@ -189,7 +205,10 @@ replace propName with the property you want to change and value with the new val
 In request header
 
 set Content-Type : application/json
-set auth-token   : token
+set auth-token   : token (String)
+set agent_id     : agent_id (String)
+
+
 
 9.) Approve Loan By Admin Only
 
@@ -200,7 +219,7 @@ replace loan_id with the _id of the loan you want to approve or reject.
 
 send Raw JSON object in request body
 {
-    "email":"John@credsBay.co",
+    "admin_id":"String",
     "loan_decision":"'Accepted' or 'Rejected'"
 }
 
@@ -209,9 +228,9 @@ In request header
 set Content-Type : application/json
 set auth-token   : token
 
-10.) GET get info about the loan details Customer can only view their own loan details.
+10.) get info about the loan details and status Customer can only view their own loan details.
 
-GET
+POST
 '/credsBay/api/Customer/view/MyLoanStatus'
 
 send Raw data in request body

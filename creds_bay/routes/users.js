@@ -59,7 +59,7 @@ router.post('/admin/login',async(req,res)=>{
    if(!validPass) return res.status(400).send('Password is wrong.');
 
    //create and assign a token
-   const token=jwt.sign({_id:user._id},process.env.TOKEN_SECRET,{ expiresIn:'1h' });
+   const token=jwt.sign({_id:user._id},process.env.TOKEN_SECRET);
    res.header('auth-token',token).send(token);//add it to our header auth-token is arbitary name and spit it back
 });
 
@@ -83,7 +83,7 @@ router.post('/agent/login',async(req,res)=>{
    if(!validPass) return res.status(400).send('Password is wrong.');
 
    //create and assign a token
-   const token=jwt.sign({_id:user._id},process.env.TOKEN_SECRET,{ expiresIn:'1h' });
+   const token=jwt.sign({_id:user._id},process.env.TOKEN_SECRET);
    res.header('auth-token',token).send(token);//add it to our header auth-token is arbitary name and spit it back
 });
 

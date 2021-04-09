@@ -27,6 +27,19 @@ router.get('/loans/view',verify,async(req,res)=>{
 
    try{
 
+
+     if(!req.params.loan_req_id) return res.status(400).send('Not valid loan_req_id');
+     const agent_id=req.header('agent_id');
+     if(!agent_id) return res.status(400).send('Invalid ID');
+
+     console.log(req.header);
+     const agent=await User.findOne({_id:agent_id});
+     if(!agent) return res.status(400).send('No Agent Found!');
+
+     if(agent.usertype!=='Agent'){
+       return res.status(400).send('You are Not Authorized to this Only Agents are Allowed.');
+     }
+
      //check loan status
      const loan_obj=await Loan.findOne({_id:req.params.loan_req_id});
      console.log(loan_obj);
@@ -67,7 +80,7 @@ router.get('/loans/view',verify,async(req,res)=>{
      const result=await Loan.find({date:{$lt:new Date(),$gt:new Date(req.body.by_date)}});
      if(!result) return res.status(400).send('No Loan Request Found In the Record');
 
-     
+
      console.log(result);
      res.status(200).json(result);
 

@@ -4,7 +4,7 @@ const router =require('express').Router(),
       User=require('../models/Users');
 
 // View my Loan Information
-router.get('/Customer/view/MyLoanStatus',async(req,res)=>{
+router.post('/Customer/view/MyLoanStatus',async(req,res)=>{
   try{
     const email=req.body.email;
     const password=req.body.password;

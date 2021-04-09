@@ -15,7 +15,7 @@ dotenv.config();
 // Connect to database
 mongoose.connect(process.env.DB_CONNECT,
 {useNewUrlParser:true,useUnifiedTopology: true, useFindAndModify: false })
-.then(() => console.log('MongoDB Connected..'))
+.then(() => console.log('------MongoDB Connected-----'))
 .catch(err => console.log(err));
 
 
@@ -37,4 +37,4 @@ app.get('/',(req,res,next)=>{
 
 
 
-app.listen(PORT,process.env.IP,()=>console.log(`Server Started at ${PORT}`));
+app.listen(PORT,process.env.IP,()=>console.log(`Server Started...`));
