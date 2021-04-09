@@ -39,5 +39,3 @@ const loanValidation=(data)=>{
 module.exports.registerValidation=registerValidation;
 module.exports.loginValidation=loginValidation;
 module.exports.loanValidation=loanValidation;
-
-//password:Joi.string().regex(new RegExp('^[a-zA-Z0-9]{8,15}$')),

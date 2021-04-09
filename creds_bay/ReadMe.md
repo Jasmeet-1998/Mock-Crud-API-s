@@ -28,6 +28,11 @@ mongoose -> To Interact with MongoDB
 3.) Customer can only get their own data.
 
 
+#Docker
+
+
+
+
 
 #Routes
 
