@@ -44,9 +44,32 @@ router.get('/loans/view',verify,async(req,res)=>{
        updateOps[ops.propName]=ops.value;
 
      }
-     const newLoan=await Loan.findByIdAndUpdate(req.params.loan_req_id, {$set:updateOps},options);
+     //update the date automatically to new time.
+     updateOps['date']=Date.now();
+     const newLoan=await Loan.findByIdAndUpdate(req.params.loan_req_id, {$set:updateOps,},options);
      res.status(200).json(newLoan);
      console.log(newLoan);
+
+   }catch(err){
+     console.log(err);
+     res.status(400).send(err);
+   }
+
+ });
+
+ // Get Loan Information from date mentioned till now.
+
+ router.get('/loan/view/byDate',verify,async(req,res)=>{
+
+   try{
+
+
+     const result=await Loan.find({date:{$lt:new Date(),$gt:new Date(req.body.by_date)}});
+     if(!result) return res.status(400).send('No Loan Request Found In the Record');
+
+     
+     console.log(result);
+     res.status(200).json(result);
 
    }catch(err){
      console.log(err);

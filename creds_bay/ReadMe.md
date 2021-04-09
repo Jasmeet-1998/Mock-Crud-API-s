@@ -204,4 +204,32 @@ In request header
 set Content-Type : application/json
 set auth-token   : token
 
-10.) GET get info about the loan details Customer can only view their own loan details by providing their loan_id as request parameter.
+10.) GET get info about the loan details Customer can only view their own loan details.
+
+GET
+'/credsBay/api/Customer/view/MyLoanStatus'
+
+send Raw data in request body
+
+{
+    "email":"String",
+    "password":"String"
+}
+
+11.)Get Loan Request By mentioned Date till now.
+
+GET
+'/credsBay/api/loan/view/byDate'
+
+Send Raw data in request Body as JSON
+
+{
+    "by_date":"YYYY-MM-DD"
+}
+
+replace YYYY-MM-DD with the date you want to filter loan request.
+
+In request header
+
+set Content-Type : application/json
+set auth-token   : token

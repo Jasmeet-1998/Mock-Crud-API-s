@@ -7,6 +7,7 @@ const express=require('express'),
       agentRoute=require('./routes/agent'),
       userRoute=require('./routes/users'),
       loanRoute=require('./routes/Loans'),
+      customerRoute=require('./routes/customers'),
       PORT=process.env.PORT || 3000;
 
 dotenv.config();
@@ -27,6 +28,7 @@ app.use('/credsBay/api',userRoute);
 app.use('/credsBay/api',adminRoute);
 app.use('/credsBay/api',agentRoute);
 app.use('/credsBay/api',loanRoute);
+app.use('/credsBay/api',customerRoute);
 
 // Default home route
 app.get('/',(req,res,next)=>{
