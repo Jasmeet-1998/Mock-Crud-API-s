@@ -4,7 +4,8 @@ Creds Bay
 
 
 By -> Jasmeet
-Description -> Interview Task /Basics
+
+Description -> Credit Banking System Based Mock API
 
 Major Packages Used
 -------------------
@@ -48,9 +49,9 @@ this file will have two Environment variables.
 DB_CONNECT="mongoUrl"
 TOKEN_SECRET="Anything Random or Your Secret Cipher You want to add"
 
--docker build -t jasmeetbali/interview-assignment-redcarpetup .
+-docker build -t username/image-name-youwanttogive .
 
--docker run -it -p 8080:3000 jasmeetbali/interview-assignment-redcarpetup
+-docker run -it -p 8080:3000 username/image-name-youwanttogive
 
 -open a new terminal and Run npm test
 
