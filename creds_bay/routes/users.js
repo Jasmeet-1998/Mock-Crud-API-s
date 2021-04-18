@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV !== "production"){
+  require('dotenv').config();
+}
 const router=require('express').Router(),
       User=require('../models/Users'),
       {registerValidation,loginValidation}=require('../validations'),
@@ -63,7 +66,8 @@ router.post('/admin/login',async(req,res)=>{
     if(!validPass) return res.status(400).send('Password is wrong.');
 
     //create and assign a token
-    const token=jwt.sign({_id:user._id},process.env.TOKEN_SECRET);
+    const token_secret=process.env.SECRET || process.env.TOKEN_SECRET
+    const token=jwt.sign({_id:user._id},token_secret);
     res.header('auth-token',token).send(token);//add it to our header auth-token is arbitary name and spit it back
 
   }catch(err){

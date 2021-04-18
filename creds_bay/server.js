@@ -1,7 +1,9 @@
+if (process.env.NODE_ENV !== "production"){
+  require('dotenv').config();
+}
 const express=require('express'),
       app=express(),
       path=require('path'),
-      dotenv=require('dotenv'),
       bodyParser=require('body-parser'),
       mongoose=require('mongoose'),
       adminRoute=require('./routes/admin'),
@@ -11,10 +13,12 @@ const express=require('express'),
       customerRoute=require('./routes/customers'),
       PORT=process.env.PORT || 3000;
 
-dotenv.config();
+
 
 // Connect to database
-mongoose.connect(process.env.DB_CONNECT,
+const dburl=process.env.DB_URL || process.env.DB_CONNECT;
+
+mongoose.connect(dburl,
 {useNewUrlParser:true,useUnifiedTopology: true, useFindAndModify: false })
 .then(() => console.log('------MongoDB Connected-----'))
 .catch(err => console.log(err));
