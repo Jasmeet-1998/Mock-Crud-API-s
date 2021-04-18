@@ -1,5 +1,6 @@
 const express=require('express'),
       app=express(),
+      path=require('path'),
       dotenv=require('dotenv'),
       bodyParser=require('body-parser'),
       mongoose=require('mongoose'),
@@ -30,9 +31,13 @@ app.use('/credsBay/api',agentRoute);
 app.use('/credsBay/api',loanRoute);
 app.use('/credsBay/api',customerRoute);
 
-// Default home route
-app.get('/',(req,res,next)=>{
-  res.send('Started');
+//set the view-engine autolookup for views directory ease of path access.
+app.set('view engine','ejs');
+app.set('views',path.join(__dirname,'views'));
+
+//homeroute
+app.get('/',(req,res)=>{
+  res.render('Home');
 });
 
 

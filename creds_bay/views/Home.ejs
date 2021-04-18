@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>CredsBay API</title>
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+
+  </head>
+  <body style="background-color:#E5FFCC">
+    <h1>CredsBay API Documentation</h1>
+<hr>
+    <b>
+      <h4>Features and Access</h4>
+      <p>
+        1.) Admin can fetch anyone Information basically all Users in the DATABASE and Approve Loans(get,Approve).
+<br>
+        2.) Agent can access their own data and edit,update,get Customer Data.
+<br>
+        3.) Customer can only get their own Loan Requests Information.
+
+      </p>
+      <br>
+      <h2>#Routes</h2>
+      <p>
+        <h4>USE POSTMAN TO MAKE REQUESTS</h4>
+<br>
+        UNPROTECTED ROUTE
+<hr>
+<br>
+<br>
+        '/credsBay/api/register/newUser' POST
+<br>
+<br>
+        Use Case-> TO ADD A NEW ADMIN OR AGENT OR CUSTOMER IN THE DATABASE.
+<br>
+<br>
+        Note -> This route is Unprotected and is used to populate the database.
+<br>
+<br>
+        Send raw data in body  as JSON object below
+<br><br>            {
+              "name":"String",
+              "email":"String",
+              "password":"String"
+              "usertype": "Agent" or "Admin" or "Customer"
+            }
+<br>
+<br>
+        <h2>#Admin Routes (Protected)</h2>
+<hr>
+<br>
+        <h3>1.) Admin Login POST Route</h3>
+<br>
+<br>
+
+
+        To get auth-token for subsequent request.
+<br>
+        Note -> You must be Admin to Access this Route.
+<br>
+<br>
+        'credsBay/api/admin/login' POST
+<br>
+<br>
+        send raw data in body as JSON Object
+<br>        {
+<br>            "email":"String",
+<br>          "password":"String"
+<br>        }
+<br>
+<hr>
+        Success(200)=> You will get a Long token with 1 hour validity use this token to make further admin request.
+<hr>
+        <h3>2.) Admin View GET Route.</h3>
+
+
+        Admin Only
+<br>
+        to List All Users Data in the Database.
+<br>
+        Requires - auth-token in request header and admin_id in request params.
+<br>
+<br>
+        'credsBay/api/admin/view/admin_id' GET
+<br>
+<br>
+        replace admin_id by the admin_id that was received when new Admin was added to the database via the unprotected register route.
+<br>
+<br>
+
+        In request header
+<br>
+<br>
+<br>        set Content-Type : application/json
+<br>      set auth-token   : token
+
+<br>        token that was recieved when Admin hit the
+<br>        previous Admin Login POST Route.
+<hr>
+        Success(200)=> Displays Everyone Details Including Admin , Customers & Agents as users Array JSON response.
+<hr>
+<br>
+        <h3>3.) POST Login By Agent</h3>
+<br>
+<br>
+        '/credsBay/api/agent/login'
+<br>
+<br>
+<br>
+<br>        send raw data in body as JSON Object
+<br>        {
+<br>            "email":"String",
+<br>            "password":"String"
+<br>        }
+<hr>
+        Success(200)=> You will get a Long token with 1 hour validity use this token to make further agent requests.
+<hr>
+<br>
+        <h3>4.)GET get all customer information</h3>
+<br>
+<br>
+        Requires - auth-token in request header.
+<br>
+<br>
+        'credsBay/api/agent/view' GET
+<br>
+<br>
+        In request header
+<br>
+<br>
+<br>        set Content-Type : application/json
+<br>        set auth-token   : token
+<br>
+<br>
+<br>        token that was recieved when Agent hit the
+<br>        previous Agent Login POST Route.
+<hr>
+        Success(200)=> Displays Customers details as customers Array JSON response.
+</hr>
+        <h3>>5.)GET get agent_id by email passed as param in request url.</h3>
+<br>
+<br>
+        'credsBay/api/agent/view/EMAIL'
+<br>
+<br>
+        replace Email with agent email.
+<br>
+<br>
+        In request header
+<br>
+<br>
+<br>        set Content-Type : application/json
+<br>        set auth-token   : token
+<br>
+<hr>
+        Success(200):gives agent_id associated to that email.
+<hr>
+<br>
+        <h3>6.)POST Create a loan request</h3>
+<br>
+<br>
+        '/credsBay/api/agent/loan/new'
+<br>
+<br>
+<br>        Access- Agent Only ,
+         though , Hypothetically Admin have all the info regarding every user they can use the customer_id and agent_id to create a new loan request also.
+<br>
+<br>
+<br>
+<br>         send raw data in body as JSON Object
+<br>        {
+<br>             "customer_id":"String",
+<br>             "interest":Number,
+<br>             "agent_id":"String",
+<br>             "tenure_in_months":Number(in months)
+<br>        }
+<br>
+<br>
+        NOTE->
+<br>
+<br>
+        customer_id and agent_id can be obtained by hitting the get all customer information and get agent_id by email routes.
+<br>
+<hr>
+        Success(200):returns a {
+          loan_req_id:"String"
+        }
+<hr>
+<br>
+        <h3>7.) View Loans Details For all Customers.</h3>
+<br>
+<br>
+        GET '/credsBay/api/loans/view'
+<br>
+<br>
+
+        In request header
+<br>
+<br>
+<br>        set Content-Type : application/json
+<br>        set auth-token   : token
+<hr>
+        Success(200):gives Loans Object with all loan requests in the database.
+<hr>
+        <h3>8.) Edit/Update Route Agent Only</h3>
+<br>
+<br>
+        PATCH '/credsBay/api/agent/loan/edit/loan_req_id'
+<br>
+<br>
+        replace loan_req_id with the loan_id you want to make changes to.
+<br>
+<br>
+<br>        send raw data in body as JSON array
+<br>        [
+<br>            {"propName":propName,"value":value}
+<br>        ]
+<br>
+<br>
+        replace propName with the property you want to change and value with the new value you want to set for this property.
+<br>
+<br>
+        In request header
+<br>
+<br>
+<br>        set Content-Type : application/json
+<br>        set auth-token   : token (String)
+<br>        set agent_id     : agent_id (String)
+<br>
+<br>
+
+
+        <h3>9.) Approve Loan By Admin Only</h3>
+<br>
+<br>
+<br>        PATCH
+<br>        '/credsBay/api/admin/loanApproval/loan_id'
+<br>
+<br>
+        replace loan_id with the _id of the loan you want to approve or reject.
+<br>
+<br>
+<br>        send Raw JSON object in request body
+<br>        {
+<br>            "admin_id":"String",
+<br>            "loan_decision":"'Accepted' or 'Rejected'"
+<br>        }
+<br>
+<br>
+        In request header
+<br>
+<br>
+<br>        set Content-Type : application/json
+<br>        set auth-token   : token
+
+        <h3>10.) get info about the loan details and status Customer can only view their own loan details.</h3>
+<br>
+<br>
+<br>        POST
+<br>        '/credsBay/api/Customer/view/MyLoanStatus'
+<br>
+<br>
+        send Raw data in request body
+<br>
+<br>
+<br>        {
+<br>            "email":"String",
+<br>            "password":"String"
+<br>        }
+<br>
+        <h3>11.) Get Loan Request By mentioned Date till now.</h3>
+<br>
+<br>
+<br>        GET
+<br>        '/credsBay/api/loan/view/byDate'
+<br>
+<br>
+<br>        Send Raw data in request Body as JSON
+<br>
+<br>
+<br>        {
+<br>            "by_date":"YYYY-MM-DD"
+<br>        }
+<br>
+<br>
+<br>        replace YYYY-MM-DD with the date you want to filter loan request.
+<br>
+<br>
+<br>        In request header
+<br>
+<br>
+<br>        set Content-Type : application/json
+<br>        set auth-token   : token
+<br>
+<br>
+      </p>
+
+
+
+
+
+
+
+    </b>
+
+  </body>
+</html>
