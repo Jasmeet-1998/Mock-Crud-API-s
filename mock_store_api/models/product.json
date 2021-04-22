@@ -1,0 +1,22 @@
+[
+  {
+    "prod_id": 1,
+    "prod_name": "Capacitor",
+    "prod_price": 40
+  },
+  {
+    "prod_id": 2,
+    "prod_name": "Armature",
+    "prod_price": 120
+  },
+  {
+    "prod_id": 3,
+    "prod_name": "PowerPlug",
+    "prod_price": 240
+  },
+  {
+    "prod_id": 4,
+    "prod_name": "Mtx-100",
+    "prod_price": 560
+  }
+]
